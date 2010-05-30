@@ -118,20 +118,15 @@ public class HomeTab extends Activity {
 	        fetcher = new MessageFetcher("home", user_key, user_secret);
 	        messageList = fetcher.getMessages(0);
 	        if (messageList.size() != 0){
-	        Message m = messageList.get(0);
-	        last_id = m.id;
-	        Log.v("honza", "last id: " + last_id);
-	        
+		        Message m = messageList.get(0);
+		        last_id = m.id;
+		        Log.v("honza", "last id: " + last_id);
 	        } 
 	        adapter = new MessageRowAdapter(this, messageList);
-	        
-	        
 	        
 	        ListView lv = (ListView)findViewById(R.id.list);
 	        lv.setAdapter(adapter);
 	        
-	          
-	       
 	        Log.v("honza", "before timer");
 	       
 	        handler.postDelayed(runnable, delay);
@@ -150,7 +145,12 @@ public class HomeTab extends Activity {
 			 * 
 			 */
 			
-			List<Message> newMessages = HomeTab.this.fetcher.getMessages(HomeTab.this.last_id);
+			// The following assumes the service has been connected and bound.
+			
+			List<Message> newMessages = remoteService.getMessages();
+			
+			
+			//List<Message> newMessages = HomeTab.this.fetcher.getMessages(HomeTab.this.last_id);
         	int size = newMessages.size();
         	Message m;
         	if (size != 0){
