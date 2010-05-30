@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+  
+   <PreferenceCategory android:title="Basic Settings">
+        <CheckBoxPreference
+                android:key="Main_Option"
+                android:title="Main Option"
+                android:defaultValue="true"
+                android:summary="SUMMARY_Main_Option" /> 
+                
+                
+                
+         <ListPreference android:entries="@array/background_id"
+          android:entryValues="@array/background_value"
+          android:title="Select something"
+           />                                              
+                
+    </PreferenceCategory>
+    
+    <PreferenceCategory android:title="Advanced Settings">
+    
+    	<PreferenceScreen android:title="Advanced Options">
+     
+        	<CheckBoxPreference
+            	    android:key="Advanced_Option"
+                	android:title="Advanced Option"
+                	android:defaultValue="true"
+                	android:summary="SUMMARY_Advanced_Option"/>
+                
+     	</PreferenceScreen>           
+         
+                 
+        <EditTextPreference  android:dialogTitle="EditTextTitle"
+                             android:dialogMessage="EditTextMessage"
+                             android:dependency="Main_Option"
+                             android:key="pref_dialog"
+                             android:title="SomeTitle"
+                             android:summary="Summary"
+                             android:defaultValue="test"/>      
+                             
+                              
+                                                              
+    </PreferenceCategory>
+  
+</PreferenceScreen>

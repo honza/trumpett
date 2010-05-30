@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string-array name="background_id">
+   <item>Default</item>
+   <item>BG2</item>
+   <item>BG3</item>   
+</string-array>
+
+<string-array name="background_value">
+   <item>one</item>
+   <item>two</item>
+   <item>three</item>
+</string-array>
+
+</resources>

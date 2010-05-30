@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">This is a simple Twitter application.</string>
+    <string name="app_name">fishwire</string>
+    <string name="compose_text_str">Compose a tweet:</string>
+    <string name="send_tweet">Update</string>
+</resources>
