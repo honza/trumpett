@@ -29,15 +29,24 @@ public class HomeTab extends Activity {
 	public long last_id = 0;
 	public List<Message> messageList = null;
 	public Handler handler = new Handler();
-	public int delay = 300000;
+	public int delay = 5000;
 	private MessageRowAdapter adapter;
 	private MessageFetcher fetcher;
+	
+	private TweetService mTweetService;
+	private ServiceConnection mConnection = new ServiceConnection(){
+		public void onServiceConnected(ComponentName className, IBinder service){
+			mTweetService = ((TweetService.LocalBinder)service).getService();
+		}
+		public void onServiceDisconnected(ComponentName className){
+			mTweetService = null;
+		}
+	};
 	
 	private final Runnable runnable = new Runnable() {
         public void run() {
             Log.v("honza", "timer");
-            
-            invokeService();
+            Log.v("honza", "Checking if there are queued messages...");
             UpdateTimeline updater = new UpdateTimeline();
             Boolean newStuff = false;
             updater.execute(HomeTab.this.last_id);
@@ -49,7 +58,7 @@ public class HomeTab extends Activity {
             
             /* Comment out the following line to prevent looping */
             
-            // HomeTab.this.handler.postDelayed(HomeTab.this.runnable, delay);
+            HomeTab.this.handler.postDelayed(HomeTab.this.runnable, delay);
         }
     };
 		
@@ -68,7 +77,7 @@ public class HomeTab extends Activity {
 	        	connect_btn.setOnClickListener(startAuth);
 	        } else {
 	        	setContentView(R.layout.home_tab);
-	        	//doStart();
+	        	doStart();
 	        } 
 	   
 	        Button a = (Button)findViewById(R.id.invoke);
@@ -76,7 +85,7 @@ public class HomeTab extends Activity {
 
 				@Override
 				public void onClick(View v) {
-					invokeService();
+					//invokeService();
 					
 				}
 	        	
@@ -102,10 +111,20 @@ public class HomeTab extends Activity {
 		 
 	 }
 	 
+	 public void startTweetService(){
+		 startService(new Intent(HomeTab.this, TweetService.class));
+		 bindTweetService();
+	 }
+	 public void bindTweetService(){
+		 Log.v("honza", "bindTweetService()");
+		 getApplicationContext().bindService(new Intent(HomeTab.this, TweetService.class), mConnection, Context.BIND_AUTO_CREATE);
+	 }
+	 
 	 public void doStart(){
 		 
 		 	Log.v("honza", "doStart");
-		 
+		 	startTweetService();
+		 	
 		 	messageList = new ArrayList<Message>();
 	        fetcher = new MessageFetcher("home", user_key, user_secret);
 	        messageList = fetcher.getMessages(0);
@@ -137,16 +156,27 @@ public class HomeTab extends Activity {
 			 * 
 			 */
 			
+			if (mTweetService == null){
+				Log.v("honza", "mTweetService is null");
+			} else {
+				Log.v("honza", "mTWeetService not null");
+			}
 			
-			//List<Message> newMessages = HomeTab.this.fetcher.getMessages(HomeTab.this.last_id);
+			List<Message> newMessages = mTweetService.getMessages();
+			if (newMessages == null){
+				Log.v("honza", "newMessages is null");
+				return false;
+			}
         	int size = newMessages.size();
         	Message m;
         	if (size != 0){
         		if (size == 1){
+        			Log.v("honza", "1 new queued message...");
         			m = newMessages.get(0);
         			HomeTab.this.messageList.add(0, m);
         		} else {
-        			m = newMessages.get(size);
+        			Log.v("honza", Integer.toString(size) + " new messages...");
+        			m = newMessages.get(size - 1);
         			for (int i = 0; i < size; i++){
         				Message a = newMessages.get(i);
         				HomeTab.this.messageList.add(0, a);
@@ -155,18 +185,11 @@ public class HomeTab extends Activity {
         		HomeTab.this.last_id = m.id;
         		return true;
         	} else {
-        		Log.v("honza", "no new messages");
+        		Log.v("honza", "No messages in the queue...");
         		return false;
-        	}
-	        
-	        
-			
-			
+        	}			
 			
 		}
 		 
 	 }
-	 
-	    
-
 }

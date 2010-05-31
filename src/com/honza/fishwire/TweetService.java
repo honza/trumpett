@@ -3,23 +3,21 @@ package com.honza.fishwire;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.honza.fishwire.RemoteMessage;
-
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.RemoteException;
 import android.util.Log;
 
 public class TweetService extends Service {
 	
 	private Handler serviceHandler;
-	private int counter;
 	private Task myTask = new Task();
 	public long last_id = 0L;
-	public int delay = 5000;
+	public int minutes = 2;
+	public int delay = minutes*60*1000;
 		
 	public static final String PREFERENCES = "Fishwire";
 	public String user_key = "";
@@ -30,16 +28,32 @@ public class TweetService extends Service {
 	private MessageRowAdapter adapter;
 	private MessageFetcher fetcher;
 	
-
+	public List<Message> getMessages(){
+		return messageList;
+	}
+	
+	public void resetMessages(){
+		messageList = null;
+	}
+	
 	@Override
-	public IBinder onBind(Intent arg0) {
+	public IBinder onBind(Intent i) {
 		Log.d(getClass().getSimpleName(), "onBind()");
-		
+		return mBinder;
+	}
+	
+	public class LocalBinder extends Binder {
+		TweetService getService(){
+			return TweetService.this;
+		}
 	}
 
+	private final IBinder mBinder = new LocalBinder();
+	
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		
 		Log.d(getClass().getSimpleName(),"onCreate()");
 		
 		SharedPreferences settings = getSharedPreferences(PREFERENCES, 0);
@@ -68,16 +82,12 @@ public class TweetService extends Service {
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
 		serviceHandler = new Handler();
-		serviceHandler.postDelayed(myTask, 1000L);
+		serviceHandler.postDelayed(myTask, delay);
 		Log.d(getClass().getSimpleName(), "onStart()");
 	}
 	
 	class Task implements Runnable {
 		public void run() {
-			/* ++counter;
-			serviceHandler.postDelayed(this,1000L);
-			Log.v("honza", "Counter: " + Integer.toString(counter));
-			*/
 			Log.v("honza", "Task in a service");
 			Log.v("honza", "API: " + fetcher.api);
 			Log.v("honza", "Key: " + fetcher.key);
