@@ -89,7 +89,9 @@ public class MessageFetcher {
 		if (id == 0){
 			get = new HttpGet(this.api);
 		} else {
-			get = new HttpGet("http://api.twitter.com/version/statuses/home_timeline.json?since_id=" + id);
+			String ur = "http://api.twitter.com/1/statuses/home_timeline.json?since_id=" + Long.toString(id);
+			Log.v("honza", "URL: " + ur);
+			get = new HttpGet(ur);
 		}
 		get.setParams(getParams());
 		

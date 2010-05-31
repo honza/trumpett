@@ -17,7 +17,7 @@ public class TweetService extends Service {
 	private Task myTask = new Task();
 	public long last_id = 0L;
 	public int minutes = 1;
-	public int delay = minutes*60*1000;
+	public int delay = 5000;
 		
 	public static final String PREFERENCES = "Fishwire";
 	public String user_key = "";
@@ -88,36 +88,28 @@ public class TweetService extends Service {
 	
 	class Task implements Runnable {
 		public void run() {
+			Log.v("honza", "***********************");
 			Log.v("honza", "Task in a service");
-			Log.v("honza", "API: " + fetcher.api);
-			Log.v("honza", "Key: " + fetcher.key);
-			Log.v("honza", "Secret: " + fetcher.secret);
-			List<Message> newMessages = fetcher.getMessages(last_id);
+			//List<Message> newMessages = fetcher.getMessages(last_id);
+			if (messageList == null){
+				messageList = new ArrayList<Message>();
+			} 
+			messageList = fetcher.getMessages(last_id);
 			Log.v("honza", "fetcher finished");
-        	int size = newMessages.size();
+        	int size = messageList.size();
         	Message m;
         	if (size != 0){
-        		if (size == 1){
-        			m = newMessages.get(0);
-        			messageList.add(0, m);
-        		} else {
-        			m = newMessages.get(size - 1);
-        			for (int i = 0; i < size; i++){
-        				Message a = newMessages.get(i);
-        				messageList.add(0, a);
-        				
-        			}
-        		}
+        		m = messageList.get(0);
         		last_id = m.id;
         		Log.v("honza", "Last Id in task: " + Long.toString(last_id));
         	} else {
         		Log.v("honza", "no new messages");
-        		
         	}
             
             /* Comment out the following line to prevent looping */
             
             serviceHandler.postDelayed(this, delay);
+            Log.v("honza", "*******************");
 		}
 	}
 	

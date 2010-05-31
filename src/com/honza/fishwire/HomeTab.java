@@ -49,7 +49,7 @@ public class HomeTab extends Activity {
             Log.v("honza", "Checking if there are queued messages...");
             UpdateTimeline updater = new UpdateTimeline();
             updater.execute(HomeTab.this.last_id);
-            
+             
             HomeTab.this.adapter.notifyDataSetChanged();
                         
             /* Comment out the following line to prevent looping */
@@ -126,7 +126,7 @@ public class HomeTab extends Activity {
 		 	 * 
 		 	 */
 		 	messageList = new ArrayList<Message>();
-		 	
+		 	/*
 	        fetcher = new MessageFetcher("home", user_key, user_secret);
 	        messageList = fetcher.getMessages(0);
 	        if (messageList.size() != 0){
@@ -134,6 +134,7 @@ public class HomeTab extends Activity {
 		        last_id = m.id;
 		        Log.v("honza", "last id: " + last_id);
 	        } 
+	        */
 	        adapter = new MessageRowAdapter(this, messageList);
 	        
 	        ListView lv = (ListView)findViewById(R.id.list);
@@ -172,7 +173,7 @@ public class HomeTab extends Activity {
         		} else {
         			Log.v("honza", Integer.toString(size) + " new messages...");
         			m = newMessages.get(size - 1);
-        			for (int i = 0; i < size; i++){
+        			for (int i = size - 1; i >= 0; i--){
         				Message a = newMessages.get(i);
         				HomeTab.this.messageList.add(0, a);
         			}
