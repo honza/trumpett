@@ -75,19 +75,7 @@ public class HomeTab extends Activity {
 	        	setContentView(R.layout.home_tab);
 	        	doStart();
 	        } 
-	   
-	        Button a = (Button)findViewById(R.id.invoke);
-	        a.setOnClickListener(new OnClickListener(){
-
-				@Override
-				public void onClick(View v) {
-					//invokeService();
-					
-				}
-	        	
-	        });
-			
-	
+	   	
 	    }
 	 
 	 private OnClickListener startAuth = new OnClickListener(){
