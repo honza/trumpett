@@ -3,7 +3,7 @@ package com.honza.fishwire;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public final class RemoteMessage implements Parcelable {
+public class RemoteMessage implements Parcelable {
     
     public String body;
     public String user;

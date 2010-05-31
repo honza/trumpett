@@ -24,11 +24,6 @@ public class Fishwire extends TabActivity {
 	public final int MENU_SETTINGS = 1;
 	public final int MENU_REFRESH = 2;
 	public final int MENU_EXIT = 3;
-
-	private boolean started = false;
-	public static RemoteServiceConnection conn = null;
-	public static TweetServiceInterface remoteService;
-
 	
     /** Called when the activity is first created. */
     @Override
@@ -36,10 +31,7 @@ public class Fishwire extends TabActivity {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.main);
-        Log.v("honza", "Top of Fishwire on create...");
-        startService();
-        Log.v("honza", "After startservice...");
-       
+              
         Resources res = getResources(); // Resource object to get Drawables
         TabHost tabHost = getTabHost();  // The activity TabHost
         TabHost.TabSpec spec;  // Resusable TabSpec for each tab
@@ -70,70 +62,7 @@ public class Fishwire extends TabActivity {
         tabHost.setCurrentTab(0);
         
     }
-    
-    private void startService(){
-    	if (started){
-    		Log.v("honza", "service already started");
-    	} else {
-    		Intent i = new Intent();
-   			i.setClassName("com.honza.fishwire", "com.honza.fishwire.TweetService");
-   			startService(i);
-   			started = true;
-   			Log.v("honza", "service started...");
-    	}
-    	
-    }
-    
-    private void bindService(){
-    	if(conn == null) {
-			conn = new RemoteServiceConnection();
-			Intent i = new Intent();
-			i.setClassName("com.honza.fishwire", "com.honza.fishwire.TweetService");
-			bindService(i, conn, Context.BIND_AUTO_CREATE);
-			Log.v("honza", "service bound" );
-			if (remoteService == null){
-				Log.v("honza", "remote is null in bind()");
-			} else {
-				Log.v("honza", "remote is NOT null in bind()");
-			}
-		} else {
-			Log.v("honza", "service cannot be bound");
-		}
-    }
-    private void invokeService() {
-		if(conn == null) {
-			Log.v("honza", "conn is null");
-		} else {
-			try {
-				if (remoteService == null){
-					Log.v("honza", "remoteService is null");
-				}
-				int counter = remoteService.getCounter();
-				  
-				  Log.v("honza", "Counter value: "+Integer.toString( counter ) );
-				 
-			} catch (RemoteException re) {
-				
-			}
-		}
-	}
-    
-    
-    
-    
-    class RemoteServiceConnection implements ServiceConnection {
-        public void onServiceConnected(ComponentName className, 
-			IBinder boundService ) {
-          remoteService = TweetServiceInterface.Stub.asInterface((IBinder)boundService);
-          Log.v("honza", "in onServiceConnected()" );
-        }
-
-        public void onServiceDisconnected(ComponentName className) {
-          remoteService = null;
-		   Log.d( getClass().getSimpleName(), "onServiceDisconnected" );
-        }
-    };
- 
+     
 
     /* Creates the menu items */
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -151,7 +80,7 @@ public class Fishwire extends TabActivity {
             return true;
         case MENU_REFRESH:
             // write refresh code
-        	invokeService();
+        	
             return true;
         case MENU_EXIT:
             // write exit code

@@ -3,6 +3,8 @@ package com.honza.fishwire;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.honza.fishwire.RemoteMessage;
+
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,9 +20,7 @@ public class TweetService extends Service {
 	private Task myTask = new Task();
 	public long last_id = 0L;
 	public int delay = 5000;
-	
-	
-	
+		
 	public static final String PREFERENCES = "Fishwire";
 	public String user_key = "";
 	public String user_secret = "";
@@ -34,26 +34,9 @@ public class TweetService extends Service {
 	@Override
 	public IBinder onBind(Intent arg0) {
 		Log.d(getClass().getSimpleName(), "onBind()");
-		return myRemoteServiceStub;
+		
 	}
 
-	private TweetServiceInterface.Stub myRemoteServiceStub = new TweetServiceInterface.Stub() {
-		
-		/* Here is where you define remote interface methods */
-		
-		public int getCounter() throws RemoteException {
-			return counter;
-		}
-		
-		public List<Message> getMessages() throws RemoteException {
-			return messageList;
-		}
-		
-		public void resetMessages() throws RemoteException {
-			messageList = null;
-		}
-	};
-	
 	@Override
 	public void onCreate() {
 		super.onCreate();

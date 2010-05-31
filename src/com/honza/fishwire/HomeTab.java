@@ -33,11 +33,6 @@ public class HomeTab extends Activity {
 	private MessageRowAdapter adapter;
 	private MessageFetcher fetcher;
 	
-	
-	public static RemoteServiceConnection conn = null;
-	public static TweetServiceInterface remoteService;
-	
-	
 	private final Runnable runnable = new Runnable() {
         public void run() {
             Log.v("honza", "timer");
@@ -74,11 +69,8 @@ public class HomeTab extends Activity {
 	        } else {
 	        	setContentView(R.layout.home_tab);
 	        	//doStart();
-	        }
-
-	        Log.v("honza", "if finished");   
-	        bindService();
-	        
+	        } 
+	   
 	        Button a = (Button)findViewById(R.id.invoke);
 	        a.setOnClickListener(new OnClickListener(){
 
@@ -145,10 +137,6 @@ public class HomeTab extends Activity {
 			 * 
 			 */
 			
-			// The following assumes the service has been connected and bound.
-			
-			List<Message> newMessages = remoteService.getMessages();
-			
 			
 			//List<Message> newMessages = HomeTab.this.fetcher.getMessages(HomeTab.this.last_id);
         	int size = newMessages.size();
@@ -179,56 +167,6 @@ public class HomeTab extends Activity {
 		 
 	 }
 	 
-	 private void bindService(){
-	    	if(conn == null) {
-				conn = new RemoteServiceConnection();
-				Intent i = new Intent();
-				i.setClassName("com.honza.fishwire", "com.honza.fishwire.TweetService");
-				getApplicationContext().bindService(i, conn, Context.BIND_AUTO_CREATE);
-				Log.v("honza", "service bound" );
-				if (remoteService == null){
-					Log.v("honza", "remote is null in bind()");
-				} else {
-					Log.v("honza", "remote is NOT null in bind()");
-				}
-			} else {
-				Log.v("honza", "service cannot be bound");
-			}
-	    	
-	    }
-	 
-	 class RemoteServiceConnection implements ServiceConnection {
-	        public void onServiceConnected(ComponentName className, 
-				IBinder boundService ) {
-	          remoteService = TweetServiceInterface.Stub.asInterface((IBinder)boundService);
-	          Log.v("honza", "in onServiceConnected()" );
-	        }
-
-	        public void onServiceDisconnected(ComponentName className) {
-	          remoteService = null;
-			   Log.d( getClass().getSimpleName(), "onServiceDisconnected" );
-	        }
-	    };
-	 
-	 private void invokeService() {
-		 Log.v("honza", "invoke service");
-			if(conn == null) {
-				Log.v("honza", "conn is null");
-			} else {
-				try {
-					if (remoteService == null){
-						Log.v("honza", "remoteService is null");
-					}
-					int counter = remoteService.getCounter();
-					  
-					  Log.v("honza", "Service inside HomeTab: "+Integer.toString( counter ) );
-					 
-				} catch (RemoteException re) {
-					
-				}
-			}
-		}
-	    
 	    
 
 }
