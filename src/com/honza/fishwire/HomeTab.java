@@ -48,14 +48,10 @@ public class HomeTab extends Activity {
             Log.v("honza", "timer");
             Log.v("honza", "Checking if there are queued messages...");
             UpdateTimeline updater = new UpdateTimeline();
-            Boolean newStuff = false;
             updater.execute(HomeTab.this.last_id);
             
-            if (newStuff == true){
-            	HomeTab.this.adapter.notifyDataSetChanged();
-            	
-            }
-            
+            HomeTab.this.adapter.notifyDataSetChanged();
+                        
             /* Comment out the following line to prevent looping */
             
             HomeTab.this.handler.postDelayed(HomeTab.this.runnable, delay);
@@ -124,8 +120,13 @@ public class HomeTab extends Activity {
 		 
 		 	Log.v("honza", "doStart");
 		 	startTweetService();
-		 	
+		 	/*
+		 	 * The following needs to be removed.
+		 	 * It blocks the UI when loading the app.
+		 	 * 
+		 	 */
 		 	messageList = new ArrayList<Message>();
+		 	
 	        fetcher = new MessageFetcher("home", user_key, user_secret);
 	        messageList = fetcher.getMessages(0);
 	        if (messageList.size() != 0){
@@ -155,13 +156,7 @@ public class HomeTab extends Activity {
 			 * New: Checking with out TweetService to see if it collected any new tweets.
 			 * 
 			 */
-			
-			if (mTweetService == null){
-				Log.v("honza", "mTweetService is null");
-			} else {
-				Log.v("honza", "mTWeetService not null");
-			}
-			
+						
 			List<Message> newMessages = mTweetService.getMessages();
 			if (newMessages == null){
 				Log.v("honza", "newMessages is null");
@@ -183,6 +178,7 @@ public class HomeTab extends Activity {
         			}
         		}
         		HomeTab.this.last_id = m.id;
+        		mTweetService.resetMessages();
         		return true;
         	} else {
         		Log.v("honza", "No messages in the queue...");
