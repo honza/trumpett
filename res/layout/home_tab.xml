@@ -9,7 +9,7 @@
 	
 	
 	
-<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Invoke" android:id="@+id/invoke"></Button><ListView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="" android:id="@+id/list" android:divider="#ececec" android:dividerHeight="1px" ></ListView>
+<ListView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="" android:id="@+id/list" android:divider="#ececec" android:dividerHeight="1px" ></ListView>
 
 
 </LinearLayout>
