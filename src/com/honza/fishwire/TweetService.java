@@ -16,7 +16,7 @@ public class TweetService extends Service {
 	private Handler serviceHandler;
 	private Task myTask = new Task();
 	public long last_id = 0L;
-	public int minutes = 10;
+	public int minutes = 5;
 	public int delay = minutes*60*1000;
 		
 	public static final String PREFERENCES = "Fishwire";
