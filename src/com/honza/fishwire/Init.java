@@ -39,7 +39,7 @@ public class Init extends Activity {
         	Button connect_btn = (Button)findViewById(R.id.connect_btn);
         	connect_btn.setOnClickListener(startAuth);
         } else {
-        	Intent a = new Intent(Init.this, Fishwire.class);
+        	Intent a = new Intent(Init.this, HomeTab.class);
         	startActivity(a);
         }
         

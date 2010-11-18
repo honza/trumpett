@@ -99,7 +99,7 @@ public class OAuth extends Activity {
 			    
 			    returnIntent.putExtra("auth", creds);
 			    setResult(RESULT_OK, returnIntent);
-			    Intent m = new Intent(OAuth.this, Fishwire.class);
+			    Intent m = new Intent(OAuth.this, HomeTab.class);
 			    startActivity(m);
 			    this.finish();
 			    Log.v("honza", "right after finish");

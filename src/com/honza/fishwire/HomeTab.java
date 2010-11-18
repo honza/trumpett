@@ -14,6 +14,8 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -22,6 +24,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class HomeTab extends Activity {
+	
+	/* Some helpers */
+	
+	public final int MENU_SETTINGS = 1;
+	public final int MENU_REFRESH = 2;
+	public final int MENU_COMPOSE = 3;
 	
 	public static final String PREFERENCES = "Fishwire";
 	public String user_key = "";
@@ -177,4 +185,32 @@ public class HomeTab extends Activity {
 		}
 		 
 	 }
+	 
+	 
+	 /* Creates the menu items */
+	    public boolean onCreateOptionsMenu(Menu menu) {
+	        menu.add(0, MENU_SETTINGS, 0, "Settings");
+	        menu.add(0, MENU_REFRESH, 0, "Refresh");
+	        menu.add(0, MENU_COMPOSE, 0, "Compose");
+	        return true;
+	    }
+	    
+	    public boolean onOptionsItemSelected(MenuItem item) {
+	        switch (item.getItemId()) {
+	        case MENU_SETTINGS:
+	            Intent settings = new Intent(HomeTab.this, SettingsScreen.class);
+	            startActivity(settings);
+	            return true;
+	        case MENU_REFRESH:
+	            // write refresh code
+	        	
+	            return true;
+	        case MENU_COMPOSE:
+	            // write compose code
+	        	Intent compose = new Intent(HomeTab.this, ComposeTab.class);
+	        	startActivity(compose);
+	            return true;
+	        }
+	        return false;
+	    }
 }

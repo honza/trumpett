@@ -3,7 +3,7 @@
       package="com.honza.fishwire"
       android:versionCode="1"
       android:versionName="1.0">
-    <application android:icon="@drawable/icon" android:label="@string/app_name">
+    <application android:icon="@drawable/icon" android:label="@string/app_name" android:theme="@android:style/Theme.NoTitleBar">
         
 
     <activity android:name="Init" android:theme="@android:style/Theme.NoTitleBar">
@@ -29,7 +29,7 @@
 <activity android:name="ComposeTab"></activity>
 
 
-<activity android:name="Fishwire"></activity>
+
 <activity android:name="SettingsScreen"></activity>
 
 

@@ -81,7 +81,7 @@ public class TweetService extends Service {
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
 		serviceHandler = new Handler();
-		serviceHandler.postDelayed(myTask, delay);
+		serviceHandler.postDelayed(myTask, 500);
 		Log.d(getClass().getSimpleName(), "onStart()");
 	}
 	
