@@ -23,7 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class HomeTab extends Activity {
+public class Home extends Activity {
 	
 	/* Some helpers */
 	
@@ -56,13 +56,13 @@ public class HomeTab extends Activity {
             Log.v("honza", "timer");
             Log.v("honza", "Checking if there are queued messages...");
             UpdateTimeline updater = new UpdateTimeline();
-            updater.execute(HomeTab.this.last_id);
+            updater.execute(Home.this.last_id);
              
-            HomeTab.this.adapter.notifyDataSetChanged();
+            Home.this.adapter.notifyDataSetChanged();
                         
             /* Comment out the following line to prevent looping */
             
-            HomeTab.this.handler.postDelayed(HomeTab.this.runnable, delay);
+            Home.this.handler.postDelayed(Home.this.runnable, delay);
         }
     };
 		
@@ -76,7 +76,7 @@ public class HomeTab extends Activity {
 	        user_secret = settings.getString("user_secret", null);
 	        
 	        if (user_key == null){
-	        	setContentView(R.layout.home_tab_empty);
+	        	setContentView(R.layout.setup_screen);
 	        	Button connect_btn = (Button)findViewById(R.id.connect_btn);
 	        	connect_btn.setOnClickListener(startAuth);
 	        } else {
@@ -90,7 +90,7 @@ public class HomeTab extends Activity {
 
 		@Override
 		public void onClick(View v) {
-			Intent i = new Intent(HomeTab.this, com.honza.fishwire.OAuth.class);
+			Intent i = new Intent(Home.this, com.honza.fishwire.OAuth.class);
 			startActivityForResult(i, 1);
 		}
 		 
@@ -104,12 +104,12 @@ public class HomeTab extends Activity {
 	 }
 	 
 	 public void startTweetService(){
-		 startService(new Intent(HomeTab.this, TweetService.class));
+		 startService(new Intent(Home.this, TweetService.class));
 		 bindTweetService();
 	 }
 	 public void bindTweetService(){
 		 Log.v("honza", "bindTweetService()");
-		 getApplicationContext().bindService(new Intent(HomeTab.this, TweetService.class), mConnection, Context.BIND_AUTO_CREATE);
+		 getApplicationContext().bindService(new Intent(Home.this, TweetService.class), mConnection, Context.BIND_AUTO_CREATE);
 	 }
 	 
 	 public void doStart(){
@@ -165,16 +165,16 @@ public class HomeTab extends Activity {
         		if (size == 1){
         			Log.v("honza", "1 new queued message...");
         			m = newMessages.get(0);
-        			HomeTab.this.messageList.add(0, m);
+        			Home.this.messageList.add(0, m);
         		} else {
         			Log.v("honza", Integer.toString(size) + " new messages...");
         			m = newMessages.get(size - 1);
         			for (int i = size - 1; i >= 0; i--){
         				Message a = newMessages.get(i);
-        				HomeTab.this.messageList.add(0, a);
+        				Home.this.messageList.add(0, a);
         			}
         		}
-        		HomeTab.this.last_id = m.id;
+        		Home.this.last_id = m.id;
         		mTweetService.resetMessages();
         		return true;
         	} else {
@@ -198,7 +198,7 @@ public class HomeTab extends Activity {
 	    public boolean onOptionsItemSelected(MenuItem item) {
 	        switch (item.getItemId()) {
 	        case MENU_SETTINGS:
-	            Intent settings = new Intent(HomeTab.this, SettingsScreen.class);
+	            Intent settings = new Intent(Home.this, SettingsScreen.class);
 	            startActivity(settings);
 	            return true;
 	        case MENU_REFRESH:
@@ -207,7 +207,7 @@ public class HomeTab extends Activity {
 	            return true;
 	        case MENU_COMPOSE:
 	            // write compose code
-	        	Intent compose = new Intent(HomeTab.this, ComposeTab.class);
+	        	Intent compose = new Intent(Home.this, ComposeTab.class);
 	        	startActivity(compose);
 	            return true;
 	        }

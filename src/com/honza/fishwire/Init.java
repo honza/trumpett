@@ -13,7 +13,17 @@ import android.widget.Button;
 
 public class Init extends Activity {
 	
-	public final String PREFERENCES = "Fishwire";
+	/**
+	 * This is the entry point to our application.
+	 * It loads the preferences to see if the user has already set up their
+	 * account. If not, they will be instructed to do so. 
+	 * 
+	 * If their account has been set up, a new activity will be launched to 
+	 * view content from Twitter.
+	 * 
+	 */
+	
+	public final String PREFERENCES = "trumpett";
 	public String user_key = null;
 	public String user_secret = null;
 	
@@ -21,31 +31,21 @@ public class Init extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.v("honza", "init activity");
+        
         SharedPreferences settings = getSharedPreferences(PREFERENCES, 0);
         user_key = settings.getString("user_key", null);
         user_secret = settings.getString("user_secret", null);
-        
-        /* This is to support the xml preferences activity thing */
-        
-        SharedPreferences x = PreferenceManager.getDefaultSharedPreferences(this);
-        
-        String hm = x.getString("pref_dialog", "nic");
-        Log.v("honza", hm);
-        
          
         if (user_key == null){
-        	setContentView(R.layout.home_tab_empty);
+        	// We need the user to authenticate. Display screen to ask them to do so.
+        	setContentView(R.layout.setup_screen);
         	Button connect_btn = (Button)findViewById(R.id.connect_btn);
         	connect_btn.setOnClickListener(startAuth);
         } else {
-        	Intent a = new Intent(Init.this, HomeTab.class);
+        	Intent a = new Intent(Init.this, Home.class);
         	startActivity(a);
         }
         
-        
-       
-
     }
     
     private OnClickListener startAuth = new OnClickListener(){
