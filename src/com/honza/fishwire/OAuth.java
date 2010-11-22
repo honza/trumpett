@@ -77,7 +77,7 @@ public class OAuth extends Activity {
 				Log.v("honza", "secret:" + userSecret);
 				// Save user_key and user_secret in user preferences and return
 				
-				SharedPreferences settings = getBaseContext().getSharedPreferences("Fishwire", 0);
+				SharedPreferences settings = getBaseContext().getSharedPreferences("trumpett", 0);
 			    SharedPreferences.Editor editor = settings.edit();
 			    editor.putString("user_key", userKey);
 			    editor.putString("user_secret", userSecret);
@@ -99,7 +99,7 @@ public class OAuth extends Activity {
 			    
 			    returnIntent.putExtra("auth", creds);
 			    setResult(RESULT_OK, returnIntent);
-			    Intent m = new Intent(OAuth.this, HomeTab.class);
+			    Intent m = new Intent(OAuth.this, Home.class);
 			    startActivity(m);
 			    this.finish();
 			    Log.v("honza", "right after finish");
