@@ -24,7 +24,7 @@
 			</intent-filter>
 
 </activity>
-<activity android:name="HomeTab"></activity>
+<activity android:name="Home"></activity>
 <activity android:name="RepliesTab"></activity>
 <activity android:name="ComposeTab"></activity>
 
